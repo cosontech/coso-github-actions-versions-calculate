@@ -85,4 +85,4 @@ function parseVersion(version) {
     return splitted;
 }
 
-module.exports = { compareFinaleReleases, comparePreReleases, compareVersions, getPreReleaseIdentifier, parseVersion }
+export default { compareFinaleReleases, comparePreReleases, compareVersions, getPreReleaseIdentifier, parseVersion }
