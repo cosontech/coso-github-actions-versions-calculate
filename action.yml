@@ -1,0 +1,37 @@
+name: 'Calculate version numbers'
+description: 'Calculate semantic and build versions of your solutions during GitHub workflow execution'
+author: 'COSONTECH'
+
+inputs:
+  GITHUB_TOKEN:
+    description: 'GitHub Token'
+    required: true
+  version-major-number:
+    description: 'Version - Major Number'
+    required: true
+    default: '1'
+  version-minor-number:
+    description: 'Version - Minor Number'
+    required: true
+    default: '0'
+  prerelease-custom-identifier:
+    description: 'Version - Custom Pre-Release Identifier (default: "alpha" on dev & development branches, "beta" on staging & uat branches, none on main & master branches, "tmp" on others branches)'
+    required: false
+  force-finale-version:
+    description: 'Set "true" to force the action to calculate a finale version number (without pre-relase identifier and number) even if the current branch is not main or master'
+    required: false
+    default: 'false'
+
+outputs:
+  semVersion:
+    description: 'Calculated semantic version number (x.y.z)'
+  buildVersion:
+    description: 'Calculated build version number (x.y.z.0)'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+
+branding:
+  icon: 'code'  
+  color: 'blue'
