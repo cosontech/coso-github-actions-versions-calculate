@@ -30,6 +30,7 @@ Calculated build version number
 ## Example usage
 
 ```yaml
+
 steps:  
   - name: Calculate Versions
     id: calculate-version
@@ -47,7 +48,9 @@ Then access returned version numbers through `${{ steps.calculate-version.output
   run: echo "Semantic is ${{ steps.calculate-version.outputs.semVersion }} and Build is ${{ steps.calculate-version.outputs.buildVersion }}"
 ```
 
-**Note that the "major tag" `v1` will always target the last commit. So, you are sure to use the last version of the action if you use it instead of a specifi version like `v1.0.0`**
+**Note that the "major tag" `v1` will always target the last commit. So, you are sure to use the last version of the action if you use it instead of a specifi version like `v1.0.0`**  
+
+**To manage releases creation, use the *[coso-github-actions-releases-create](https://github.com/cosontech/coso-github-actions-versions-release)* action.**
 
 ## Details
 

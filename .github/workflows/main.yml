@@ -1,0 +1,30 @@
+name: Manage Release
+
+on:
+  push:
+    branches: [ 'main' ]
+  workflow_dispatch:
+  
+permissions:
+  contents: write
+
+jobs:
+  release-action:
+    runs-on: ubuntu-latest
+    name: Manage release
+    steps:
+      - name: Calculate version
+        id: calculate-version
+        uses: cosontech/coso-github-actions-versions-calculate@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          major-number: '1'
+          minor-number: '0'
+      - name: Create or update release
+        id: create-release
+        uses: cosontech/coso-github-actions-versions-release@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          version-number: ${{ steps.calculate-version.outputs.semVersion }}
+          update-major-release: 'true'
+          create-version-release: 'false'

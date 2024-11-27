@@ -1,9 +1,12 @@
-name: Manage Release
+name: Manage Release (DEV)
 
 on:
   push:
-    branches: [ 'development','main' ]
+    branches: [ 'development' ]
   workflow_dispatch:
+  
+permissions:
+  contents: write
 
 jobs:
   release-action:
@@ -23,5 +26,5 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           version-number: ${{ steps.calculate-version.outputs.semVersion }}
-          update-major-release: 'true'
-          create-version-release: 'false'
+          update-major-release: 'false'
+          create-version-release: 'true'
