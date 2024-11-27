@@ -4,27 +4,27 @@ Calculate version number (semantic and build format)
 
 ## Inputs
 
-## `GITHUB_TOKEN`
+#### `GITHUB_TOKEN`
 **Required** GitHub token
 
-## `major-number`
+#### `major-number`
 **Required** The major number of the version (`"x"` in `"x.y.z"`)
 
-## `minor-number`
+#### `minor-number`
 **Required** The minor number of the version (`"y"` in `"x.y.z"`)
 
-## `prerelease-custom-identifier`
+#### `prerelease-custom-identifier`
 **optional** Custom pre-relase identifier (`"rc"` in `"x.y.z-rc.t"`)
 
-## `force-finale-version`
+#### `force-finale-version`
 **optional** Set `"true"` to force the action to calculate a finale version number (`"x.y.z"`, without pre-relase identifier and number) even if the current branch is not main or master
 
 ## Outputs
 
-## `semVersion`
+#### `semVersion`
 Calculated semantic version number
 
-## `buildVersion`
+#### `buildVersion`
 Calculated build version number
 
 ## Example usage
