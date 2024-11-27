@@ -15,8 +15,8 @@ jobs:
         uses: cosontech/coso-github-actions-versions-calculate@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          version-major-number: '1'
-          version-minor-number: '0'
+          major-number: '1'
+          minor-number: '0'
       - name: Create or update release
         id: create-release
         uses: cosontech/coso-github-actions-versions-release@v1
