@@ -1,4 +1,4 @@
-class ParsedVersionNumber {
+export class ParsedVersionNumber {
     majorNumber;
     minorNumber;
     patchNumber;

@@ -1,15 +1,15 @@
 import { ParsedVersionNumber } from './models';
 const gitBranches = require('./gitBranches');
 
-function compareFinaleReleases(versionNumber1, versionNumber2) {
+export function compareFinaleReleases(versionNumber1, versionNumber2) {
 	return compareVersions(versionNumber1, versionNumber2, true);
 }
 
-function comparePreReleases(versionNumber1, versionNumber2) {
+export function comparePreReleases(versionNumber1, versionNumber2) {
 	return compareVersions(versionNumber1, versionNumber2, false);
 }
 
-function compareVersions(versionNumber1, versionNumber2, areFinaleReleases) {
+export function compareVersions(versionNumber1, versionNumber2, areFinaleReleases) {
 
     //compare major numbers
     if (versionNumber1.majorNumber > versionNumber2.majorNumber) return -1;
@@ -32,7 +32,7 @@ function compareVersions(versionNumber1, versionNumber2, areFinaleReleases) {
     else return 0;
 }
 
-function getPreReleaseIdentifier(branchName, forcedPreReleaseIdentifier) {
+export function getPreReleaseIdentifier(branchName, forcedPreReleaseIdentifier) {
     if (!forcedPreReleaseIdentifier) {
         if (branchName === 'dev' || branchName === 'development') return 'alpha'
         else if (branchName === 'staging' || branchName === 'uat') return 'beta'
@@ -45,7 +45,7 @@ function getPreReleaseIdentifier(branchName, forcedPreReleaseIdentifier) {
     }
 }
 
-function parseVersion(version) {
+export function parseVersion(version) {
     var splitted = new ParsedVersionNumber();
     
     var workVersion = version;
@@ -84,9 +84,3 @@ function parseVersion(version) {
 
     return splitted;
 }
-
-exports.compareFinaleReleases = compareFinaleReleases
-exports.comparePreReleases = comparePreReleases
-exports.compareVersions = compareVersions
-exports.getPreReleaseIdentifier = getPreReleaseIdentifier
-exports.parseVersion = parseVersion
