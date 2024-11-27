@@ -1,4 +1,4 @@
-name: Manage Release
+name: Manage Release (DEV)
 
 on:
   push:
