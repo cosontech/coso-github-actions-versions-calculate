@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const {  getCurrentBranchName, isMainBranch } = require('./gitBranches');
+const { getCurrentBranchName, isMainBranch } = require('./gitBranches');
 const { compareFinaleReleases, comparePreReleases, getPreReleaseIdentifier, parseVersion } = require('./versions');
 
 // ****INPUTS****
