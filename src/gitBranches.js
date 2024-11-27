@@ -18,4 +18,6 @@ function getCurrentBranchName() {
     return getBranchName(github.context.payload.ref);
 }
 
-export default { getBranchName, getCurrentBranchName, isMainBranch }
+exports.getBranchName = getBranchName
+exports.getCurrentBranchName = getCurrentBranchName
+exports.isMainBranch = isMainBranch
