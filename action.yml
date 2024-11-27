@@ -6,11 +6,11 @@ inputs:
   GITHUB_TOKEN:
     description: 'GitHub Token'
     required: true
-  version-major-number:
+  major-number:
     description: 'Version - Major Number'
     required: true
     default: '1'
-  version-minor-number:
+  minor-number:
     description: 'Version - Minor Number'
     required: true
     default: '0'

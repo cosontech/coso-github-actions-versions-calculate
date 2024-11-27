@@ -6,14 +6,16 @@ function isMainBranch(branchName) {
 }
 
 function getBranchName(value) {
-    if (value.startsWith('refs/heads/')) {
+    if (value?.startsWith('refs/heads/')) {
         return value.substring(11);
     }
     else {
-        return value;
+        return value ?? 'local';
     }
 }
 
 function getCurrentBranchName() {
     return getBranchName(github.context.payload.ref);
 }
+
+module.exports = { getBranchName, getCurrentBranchName, isMainBranch }

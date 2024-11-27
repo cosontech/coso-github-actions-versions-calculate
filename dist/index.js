@@ -29908,7 +29908,7 @@ function wrappy (fn, cb) {
 /***/ }),
 
 /***/ 8901:
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const github = __nccwpck_require__(3228);
 
@@ -29918,11 +29918,11 @@ function isMainBranch(branchName) {
 }
 
 function getBranchName(value) {
-    if (value.startsWith('refs/heads/')) {
+    if (value?.startsWith('refs/heads/')) {
         return value.substring(11);
     }
     else {
-        return value;
+        return value ?? 'local';
     }
 }
 
@@ -29930,13 +29930,33 @@ function getCurrentBranchName() {
     return getBranchName(github.context.payload.ref);
 }
 
+module.exports = { getBranchName, getCurrentBranchName, isMainBranch }
+
+/***/ }),
+
+/***/ 195:
+/***/ (() => {
+
+class ParsedVersionNumber {
+    majorNumber;
+    minorNumber;
+    patchNumber;
+    preReleaseIdentifier;
+    preReleaseNumber;
+    isPreRelease = false;
+    fullVersionNumber;
+}
+
 /***/ }),
 
 /***/ 6100:
-/***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
+/***/ ((module, __webpack_exports__, __nccwpck_require__) => {
 
 "use strict";
 __nccwpck_require__.r(__webpack_exports__);
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(195);
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_models__WEBPACK_IMPORTED_MODULE_0__);
+/* module decorator */ module = __nccwpck_require__.hmd(module);
 
 const gitBranches = __nccwpck_require__(8901);
 
@@ -29971,21 +29991,21 @@ function compareVersions(versionNumber1, versionNumber2, areFinaleReleases) {
     else return 0;
 }
 
-function getPreReleaseIdentifier(branchName) {
-    if (!preReleaseIdentifier) {
+function getPreReleaseIdentifier(branchName, forcedPreReleaseIdentifier) {
+    if (!forcedPreReleaseIdentifier) {
         if (branchName === 'dev' || branchName === 'development') return 'alpha'
         else if (branchName === 'staging' || branchName === 'uat') return 'beta'
         else if (!gitBranches.isMainBranch(branchName)) return 'tmp'
         else return null;
     }
     else {
-        if (preReleaseIdentifier.startsWith('-')) preReleaseIdentifier = preReleaseIdentifier.substring(1);
-        return preReleaseIdentifier;
+        if (forcedPreReleaseIdentifier.startsWith('-')) forcedPreReleaseIdentifier = forcedPreReleaseIdentifier.substring(1);
+        return forcedPreReleaseIdentifier;
     }
 }
 
-function parse(version) {
-    var splitted = new ParsedVersionNumber();
+function parseVersion(version) {
+    var splitted = new _models__WEBPACK_IMPORTED_MODULE_0__.ParsedVersionNumber();
     
     var workVersion = version;
     if (workVersion.startsWith('v')) workVersion = workVersion.substring(1);
@@ -30023,6 +30043,8 @@ function parse(version) {
 
     return splitted;
 }
+
+module.exports = { compareFinaleReleases, comparePreReleases, compareVersions, getPreReleaseIdentifier, parseVersion }
 
 /***/ }),
 
@@ -31905,8 +31927,8 @@ module.exports = parseParams
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
@@ -31919,11 +31941,58 @@ module.exports = parseParams
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
 /******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__nccwpck_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__nccwpck_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nccwpck_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/harmony module decorator */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.hmd = (module) => {
+/******/ 			module = Object.create(module);
+/******/ 			if (!module.children) module.children = [];
+/******/ 			Object.defineProperty(module, 'exports', {
+/******/ 				enumerable: true,
+/******/ 				set: () => {
+/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
+/******/ 				}
+/******/ 			});
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -31943,15 +32012,15 @@ module.exports = parseParams
 var __webpack_exports__ = {};
 const core = __nccwpck_require__(7484);
 const github = __nccwpck_require__(3228);
-const gitBranches = __nccwpck_require__(8901);
-const versions = __nccwpck_require__(6100);
+const {  getCurrentBranchName, isMainBranch } = __nccwpck_require__(8901);
+const { compareFinaleReleases, comparePreReleases, getPreReleaseIdentifier, parseVersion } = __nccwpck_require__(6100);
 
 // ****INPUTS****
 
-const majorNumber = core.getInput('version-major-number');
-const minorNumber = core.getInput('version-minor-number');
+const majorNumber = core.getInput('major-number');
+const minorNumber = core.getInput('minor-number');
 const forceFinaleVersion = core.getInput('force-finale-version');
-var src_preReleaseIdentifier = core.getInput('prerelease-custom-identifier');
+var preReleaseIdentifier = core.getInput('prerelease-custom-identifier');
 
 // ****MODELS****
 
@@ -31959,21 +32028,21 @@ var BreakException = {};
 
 // ****EXECUTION****
 
-const currentBranch = gitBranches.getCurrentBranchName();
+const currentBranch = getCurrentBranchName();
 console.log(`Current branch: ${currentBranch}`);
 
-const runOnMainBranch = gitBranches.isMainBranch(currentBranch);
+const runOnMainBranch = isMainBranch(currentBranch);
 console.log(`Is main branch: ${runOnMainBranch}`);
 
-const runPreRelease = forceFinaleVersion !== 'true' && (!runOnMainBranch || src_preReleaseIdentifier);
+const runPreRelease = forceFinaleVersion !== 'true' && (!runOnMainBranch || preReleaseIdentifier);
 console.log(`Is Pre-Release: ${runPreRelease}`);
 if (runPreRelease) {
-    src_preReleaseIdentifier = versions.getPreReleaseIdentifier(currentBranch);
-    console.log(`Pre-Release identifier: ${src_preReleaseIdentifier}`);
+    preReleaseIdentifier = getPreReleaseIdentifier(currentBranch, preReleaseIdentifier);
+    console.log(`Pre-Release identifier: ${preReleaseIdentifier}`);
 }
 
 var calculatedSemVersion = (runPreRelease)
-                        ? `${majorNumber}.${minorNumber}.0-${src_preReleaseIdentifier}.1`
+                        ? `${majorNumber}.${minorNumber}.0-${preReleaseIdentifier}.1`
                         : `${majorNumber}.${minorNumber}.0`;
 console.log(`Base semantic version: ${calculatedSemVersion}`);
 var calculatedBuildVersion = `${majorNumber}.${minorNumber}.0.0`;
@@ -32007,7 +32076,7 @@ try {
                     try {
                         releases.data.forEach(release => {
                             console.log(`Release ${release.tag_name} (branch ${release.target_commitish})`);
-                            const parsedRelease = versions.parse(release.tag_name);
+                            const parsedRelease = parseVersion(release.tag_name);
                             parsedReleases.push(parsedRelease);
                         });
                     }
@@ -32029,7 +32098,7 @@ try {
         console.log('Find the last finale release (with same major and minor)');
         const finaleReleases = parsedReleases.filter(x => !x.isPreRelease);
         if (finaleReleases) {
-            lastFinaleRelease = finaleReleases.filter(x => x.majorNumber === parseInt(majorNumber) && x.minorNumber === parseInt(minorNumber)).sort(versions.compareFinaleReleases)[0];
+            lastFinaleRelease = finaleReleases.filter(x => x.majorNumber === parseInt(majorNumber) && x.minorNumber === parseInt(minorNumber)).sort(compareFinaleReleases)[0];
         }
         if (lastFinaleRelease) console.log(`Last Finale Release: ${lastFinaleRelease?.fullVersionNumber}`);
         else console.log('Last Finale Release: Not Found');
@@ -32038,9 +32107,9 @@ try {
             console.log('');
             console.log('Find the last pre-release (with same major and minor)');
 
-            const preReleases = parsedReleases.filter(x => x.isPreRelease && x.preReleaseIdentifier == src_preReleaseIdentifier);
+            const preReleases = parsedReleases.filter(x => x.isPreRelease && x.preReleaseIdentifier == preReleaseIdentifier);
             if (preReleases) {
-                lastPreRelease = preReleases.filter(x => x.majorNumber === parseInt(majorNumber) && x.minorNumber === parseInt(minorNumber)).sort(versions.comparePreReleases)[0];
+                lastPreRelease = preReleases.filter(x => x.majorNumber === parseInt(majorNumber) && x.minorNumber === parseInt(minorNumber)).sort(comparePreReleases)[0];
             }
             if (lastPreRelease) console.log(`Last Pre-Release: ${lastPreRelease?.fullVersionNumber}`);
             else console.log('Last Pre-Release: Not Found');
@@ -32055,11 +32124,11 @@ try {
         }
         else if (runPreRelease && lastPreRelease) {
             const preReleaseNumber = lastPreRelease.patchNumber === patch ? lastPreRelease.preReleaseNumber + 1 : 1;
-            calculatedSemVersion = `${majorNumber}.${minorNumber}.${patch}-${src_preReleaseIdentifier}.${preReleaseNumber}`;
+            calculatedSemVersion = `${majorNumber}.${minorNumber}.${patch}-${preReleaseIdentifier}.${preReleaseNumber}`;
             calculatedBuildVersion = `${majorNumber}.${minorNumber}.${patch}.0`;
         }
         else if (runPreRelease && lastFinaleRelease) {
-            calculatedSemVersion = `${majorNumber}.${minorNumber}.${patch}-${src_preReleaseIdentifier}.1`;
+            calculatedSemVersion = `${majorNumber}.${minorNumber}.${patch}-${preReleaseIdentifier}.1`;
             calculatedBuildVersion = `${majorNumber}.${minorNumber}.${patch}.0`;
         }
 

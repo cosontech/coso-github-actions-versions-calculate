@@ -1,12 +1,12 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const gitBranches = require('./gitBranches');
-const versions = require('./versions');
+const {  getCurrentBranchName, isMainBranch } = require('./gitBranches');
+const { compareFinaleReleases, comparePreReleases, getPreReleaseIdentifier, parseVersion } = require('./versions');
 
 // ****INPUTS****
 
-const majorNumber = core.getInput('version-major-number');
-const minorNumber = core.getInput('version-minor-number');
+const majorNumber = core.getInput('major-number');
+const minorNumber = core.getInput('minor-number');
 const forceFinaleVersion = core.getInput('force-finale-version');
 var preReleaseIdentifier = core.getInput('prerelease-custom-identifier');
 
@@ -16,16 +16,16 @@ var BreakException = {};
 
 // ****EXECUTION****
 
-const currentBranch = gitBranches.getCurrentBranchName();
+const currentBranch = getCurrentBranchName();
 console.log(`Current branch: ${currentBranch}`);
 
-const runOnMainBranch = gitBranches.isMainBranch(currentBranch);
+const runOnMainBranch = isMainBranch(currentBranch);
 console.log(`Is main branch: ${runOnMainBranch}`);
 
 const runPreRelease = forceFinaleVersion !== 'true' && (!runOnMainBranch || preReleaseIdentifier);
 console.log(`Is Pre-Release: ${runPreRelease}`);
 if (runPreRelease) {
-    preReleaseIdentifier = versions.getPreReleaseIdentifier(currentBranch);
+    preReleaseIdentifier = getPreReleaseIdentifier(currentBranch, preReleaseIdentifier);
     console.log(`Pre-Release identifier: ${preReleaseIdentifier}`);
 }
 
@@ -64,7 +64,7 @@ try {
                     try {
                         releases.data.forEach(release => {
                             console.log(`Release ${release.tag_name} (branch ${release.target_commitish})`);
-                            const parsedRelease = versions.parse(release.tag_name);
+                            const parsedRelease = parseVersion(release.tag_name);
                             parsedReleases.push(parsedRelease);
                         });
                     }
@@ -86,7 +86,7 @@ try {
         console.log('Find the last finale release (with same major and minor)');
         const finaleReleases = parsedReleases.filter(x => !x.isPreRelease);
         if (finaleReleases) {
-            lastFinaleRelease = finaleReleases.filter(x => x.majorNumber === parseInt(majorNumber) && x.minorNumber === parseInt(minorNumber)).sort(versions.compareFinaleReleases)[0];
+            lastFinaleRelease = finaleReleases.filter(x => x.majorNumber === parseInt(majorNumber) && x.minorNumber === parseInt(minorNumber)).sort(compareFinaleReleases)[0];
         }
         if (lastFinaleRelease) console.log(`Last Finale Release: ${lastFinaleRelease?.fullVersionNumber}`);
         else console.log('Last Finale Release: Not Found');
@@ -97,7 +97,7 @@ try {
 
             const preReleases = parsedReleases.filter(x => x.isPreRelease && x.preReleaseIdentifier == preReleaseIdentifier);
             if (preReleases) {
-                lastPreRelease = preReleases.filter(x => x.majorNumber === parseInt(majorNumber) && x.minorNumber === parseInt(minorNumber)).sort(versions.comparePreReleases)[0];
+                lastPreRelease = preReleases.filter(x => x.majorNumber === parseInt(majorNumber) && x.minorNumber === parseInt(minorNumber)).sort(comparePreReleases)[0];
             }
             if (lastPreRelease) console.log(`Last Pre-Release: ${lastPreRelease?.fullVersionNumber}`);
             else console.log('Last Pre-Release: Not Found');

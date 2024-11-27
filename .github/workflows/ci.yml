@@ -19,7 +19,7 @@ jobs:
           version-minor-number: '0'
       - name: Create or update release
         id: create-release
-        uses: cosontech/pr-github-actions-release@v1
+        uses: cosontech/coso-github-actions-versions-release@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           version-number: ${{ steps.calculate-version.outputs.semVersion }}

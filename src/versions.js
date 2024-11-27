@@ -32,20 +32,20 @@ function compareVersions(versionNumber1, versionNumber2, areFinaleReleases) {
     else return 0;
 }
 
-function getPreReleaseIdentifier(branchName) {
-    if (!preReleaseIdentifier) {
+function getPreReleaseIdentifier(branchName, forcedPreReleaseIdentifier) {
+    if (!forcedPreReleaseIdentifier) {
         if (branchName === 'dev' || branchName === 'development') return 'alpha'
         else if (branchName === 'staging' || branchName === 'uat') return 'beta'
         else if (!gitBranches.isMainBranch(branchName)) return 'tmp'
         else return null;
     }
     else {
-        if (preReleaseIdentifier.startsWith('-')) preReleaseIdentifier = preReleaseIdentifier.substring(1);
-        return preReleaseIdentifier;
+        if (forcedPreReleaseIdentifier.startsWith('-')) forcedPreReleaseIdentifier = forcedPreReleaseIdentifier.substring(1);
+        return forcedPreReleaseIdentifier;
     }
 }
 
-function parse(version) {
+function parseVersion(version) {
     var splitted = new ParsedVersionNumber();
     
     var workVersion = version;
@@ -84,3 +84,5 @@ function parse(version) {
 
     return splitted;
 }
+
+module.exports = { compareFinaleReleases, comparePreReleases, compareVersions, getPreReleaseIdentifier, parseVersion }
