@@ -1,7 +1,8 @@
+import { getCurrentBranchName, isMainBranch } from './gitBranches';
+import { compareFinaleReleases, comparePreReleases, getPreReleaseIdentifier, parseVersion } from './versions';
+
 const core = require('@actions/core');
 const github = require('@actions/github');
-const { getCurrentBranchName, isMainBranch } = require('./gitBranches');
-const { compareFinaleReleases, comparePreReleases, getPreReleaseIdentifier, parseVersion } = require('./versions');
 
 // ****INPUTS****
 
