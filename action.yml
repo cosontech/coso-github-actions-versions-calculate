@@ -27,6 +27,8 @@ outputs:
     description: 'Calculated semantic version number (x.y.z)'
   buildVersion:
     description: 'Calculated build version number (x.y.z.0)'
+  dockerTag:
+    description: 'Suggested docker tag (latest if branch is main or master, otherwise the name of the branch)'
 
 runs:
   using: 'node20'
