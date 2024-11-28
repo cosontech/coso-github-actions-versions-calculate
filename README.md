@@ -33,7 +33,7 @@ Calculated semantic version number
 Calculated build version number
 
 #### `dockerTag`
-Suggested docker tag (latest if branch is main or master, otherwise the name of the branch)
+Suggested docker tag ("latest" if branch is main or master, otherwise the name of the branch)
 
 ## Example usage
 
