@@ -1,7 +1,7 @@
 {
   "name": "coso-github-actions-versions-calculate",
   "description": "Calculate semantic and build versions of your solutions during GitHub workflow execution",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "COSONTECH",
   "private": true,
   "homepage": "https://github.com/cosontech/coso-github-actions-versions-calculate",
