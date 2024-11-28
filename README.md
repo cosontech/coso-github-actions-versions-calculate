@@ -32,6 +32,9 @@ Calculated semantic version number
 #### `buildVersion`
 Calculated build version number
 
+#### `dockerTag`
+Suggested docker tag ("latest" if branch is main or master, otherwise the name of the branch)
+
 ## Example usage
 
 ```yaml
@@ -92,6 +95,15 @@ steps:
       version-number: ${{ steps.calculate-version.outputs.semVersion }}
       json-path: "${{ github.workspace }}/test.json"
       json-property: 'version'
+
+  # build and push the docker image
+  - name: Build and push Docker image
+    uses: docker/build-push-action@v6
+    with:
+      context: ./src
+      file: ./src/Dockerfile
+      push: true
+      tags: "${{ env.DOCKER_IMAGE_NAME }}:${{ steps.calculate-version.outputs.dockerTag }}"
 
   # create a release to be able to increment the version number at next run
   - name: Create release
