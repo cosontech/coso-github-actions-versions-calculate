@@ -32099,13 +32099,10 @@ try {
             calculatedBuildVersion = `${majorNumber}.${minorNumber}.${patch}.0`;
         }
 
-        const dockerTag = runOnMainBranch ? "latest" : currentBranch;
         core.setOutput("semVersion", calculatedSemVersion);
         core.setOutput("buildVersion", calculatedBuildVersion);
-        core.setOutput("dockerTag", dockerTag);
         console.log(`Calculated semantic version: ${calculatedSemVersion}`);
         console.log(`Calculated build version: ${calculatedBuildVersion}`);
-        console.log(`Suggested docker tag: ${dockerTag}`);
     };
 
     parsePages();
