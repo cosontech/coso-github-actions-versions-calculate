@@ -28,11 +28,11 @@
     "package": "npx ncc build src/index.js -o dist --license licenses.txt"
   },
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.0"
+    "@actions/core": "^3.0.0",
+    "@actions/github": "^9.0.0"
   },
   "devDependencies": {
-    "@github/local-action": "^2.2.1",
-    "@vercel/ncc": "^0.38.3"
+    "@github/local-action": "^7.0.1",
+    "@vercel/ncc": "^0.38.4"
   }
 }
