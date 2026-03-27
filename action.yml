@@ -31,7 +31,7 @@ outputs:
     description: 'Suggested docker tag ("latest" if branch is main or master, otherwise the name of the branch)'
 
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'
 
 branding:
