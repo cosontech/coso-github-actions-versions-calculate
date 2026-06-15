@@ -35,5 +35,8 @@
   "devDependencies": {
     "@github/local-action": "^7.0.1",
     "@vercel/ncc": "^0.38.4"
+  },
+  "overrides": {
+    "undici": "6.24.0"
   }
 }
